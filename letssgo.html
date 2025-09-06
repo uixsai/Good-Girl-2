@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Happy Birthday Rukhiya 🎉</title>
+    <link rel="icon" href="cat.jpg" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 50px;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Background video styling */
+        #bgVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #ffdf5d;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Gift box styling */
+        #giftBox {
+            width: 200px;
+            cursor: pointer;
+            transition: transform 0.4s ease;
+            animation: shake 1.2s infinite;
+        }
+
+        #giftBox:hover {
+            transform: scale(1.1);
+        }
+
+        /* Shaking animation */
+        @keyframes shake {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(5deg);
+            }
+
+            50% {
+                transform: rotate(-5deg);
+            }
+
+            75% {
+                transform: rotate(5deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        /* Hidden surprise */
+        #surprise {
+            display: none;
+            margin-top: 20px;
+            animation: reveal 1s ease forwards;
+        }
+
+        #surprise img {
+            width: 320px;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+            animation: popIn 1s ease forwards;
+        }
+
+        #surprise h2 {
+            font-size: 2em;
+            color: #ffdf5d;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+
+        /* Pop-in effect */
+        @keyframes popIn {
+            0% {
+                transform: scale(0) rotate(-20deg);
+                opacity: 0;
+            }
+
+            60% {
+                transform: scale(1.2) rotate(10deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        /* Text glowing */
+        @keyframes textGlow {
+            from {
+                text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+            }
+
+            to {
+                text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+            }
+        }
+
+        /* Confetti canvas */
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 🎥 Alive background video -->
+    <video autoplay muted loop id="bgVideo">
+        <source src="Cat In The Swamp Live Wallpaper 4K  Dark Animated Background - Walliverse (720p, h264).mp4"
+            type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <h1>🎂 Happy Birthday, Rukhiya! 🎂</h1>
+    <p>Click the gift box for a surprise 🎁</p>
+
+    <!-- Gift box image -->
+    <img id="giftBox" src="20250906_2218_Cat Gift Box_simple_compose_01k4fyrnnhfm88784f7m11y2e2.png" alt="Gift Box">
+
+    <!-- Hidden surprise -->
+    <div id="surprise">
+        <img src="taylor.jpg" alt="Happy Birthday Surprise">
+        <h2>🎉 Happy Birthday, Rukhiya! 🎉</h2>
+    </div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti"></canvas>
+
+    <script>
+        const gift = document.getElementById('giftBox');
+        const surprise = document.getElementById('surprise');
+        const canvas = document.getElementById('confetti');
+        const ctx = canvas.getContext('2d');
+
+        // Resize confetti canvas
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        window.onresize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+
+        // Confetti particles
+        const confettiParticles = [];
+        function createConfetti() {
+            for (let i = 0; i < 200; i++) {
+                confettiParticles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 6 + 2,
+                    d: Math.random() * 0.5 + 1,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                    tilt: Math.random() * 10 - 10
+                });
+            }
+        }
+
+        function drawConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettiParticles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, false);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+            });
+            updateConfetti();
+        }
+
+        function updateConfetti() {
+            confettiParticles.forEach(p => {
+                p.y += p.d;
+                if (p.y > canvas.height) {
+                    p.y = -10;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+        }
+
+        function animateConfetti() {
+            drawConfetti();
+            requestAnimationFrame(animateConfetti);
+        }
+
+        gift.addEventListener('click', () => {
+            gift.style.display = "none";   // hide gift box
+            surprise.style.display = "block"; // show surprise
+            createConfetti();
+            animateConfetti();
+            setTimeout(() => canvas.style.display = "none", 7000); // stop confetti after 7s
+        });
+    </script>
+</body>
+
+</html>
